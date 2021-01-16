@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Biometrics</string>
 
+    <!-- Login -->
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="invalid_credentials">Invalid combination</string>
+    <string name="login">Login</string>
+
     <!-- Biometrics prompt -->
     <string name="prompt_info_title">Sample App Authentication</string>
     <string name="prompt_info_subtitle">Please login to get access</string>
