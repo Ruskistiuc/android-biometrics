@@ -10,6 +10,7 @@ buildscript {
         junit_versoin = "4.13.1"
         ext_junit_versoin = "1.1.2"
         espresso_version = "3.3.0"
+        gson_version = "2.8.6"
     }
 
     repositories {

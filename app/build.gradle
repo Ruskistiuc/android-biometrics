@@ -45,4 +45,7 @@ dependencies {
 
     // Android Biometric Library
     implementation "androidx.biometric:biometric:$biometric_version"
+
+    // Gson
+    implementation "com.google.code.gson:gson:$gson_version"
 }
