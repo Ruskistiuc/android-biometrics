@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.Fragment
@@ -17,6 +18,9 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var cryptographyManager: CryptographyManager
+    private val sharedPreferences by lazy {
+        requireContext().getSharedPreferences(SHARED_PREFS_FILENAME, Context.MODE_PRIVATE)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,31 +28,52 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
 
+        setupLayout()
+        onBiometricSwitchListener()
+        logout()
+
+        return binding.root
+    }
+
+    private fun setupLayout() {
+        // Username
+        val username = sharedPreferences.getString(USERNAME, "John Doe")
+        binding.welcomeUser.text = requireContext().getString(R.string.welcome_user, username)
+
+        // Biometric switch
+        val isBiometricEnabled = sharedPreferences.getBoolean(IS_BIOMETRIC_ENABLED, false)
+        binding.biometricSwitch.isChecked = isBiometricEnabled
+    }
+
+    private fun onBiometricSwitchListener() {
+        binding.biometricSwitch.setOnCheckedChangeListener { _, isChecked ->
+            sharedPreferences.edit().putBoolean(IS_BIOMETRIC_ENABLED, isChecked).apply()
+
+            if (isChecked) {
+                // showBiometricPromptForEncryption()
+                Toast.makeText(requireContext(), "Show biometric prompt", Toast.LENGTH_SHORT).show()
+            } else {
+                // Remove token from sharedPreferences
+                sharedPreferences.edit().remove(CIPHER_TEXT_WRAPPER).apply()
+            }
+        }
+    }
+
+    private fun logout() {
         binding.logoutBtn.setOnClickListener {
+            // Delete all data saved in sharedPreferences
+            sharedPreferences.edit().clear().apply()
+
             val intent = Intent(context, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
-
-        binding.biometricSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                showBiometricPromptForEncryption()
-            } else {
-                SampleAppUser.fakeToken = null
-                SampleAppUser.username = ""
-
-                // Delete all data saved in sharedPreferences
-                context?.getSharedPreferences(SHARED_PREFS_FILENAME, Context.MODE_PRIVATE)?.edit()
-                    ?.clear()?.apply()
-            }
-        }
-
-        return binding.root
     }
 
     private fun showBiometricPromptForEncryption() {
         val canAuthenticate = BiometricManager.from(requireContext()).canAuthenticate()
         if (canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS) {
+            // TODO what is secretKeyName ?
             val secretKeyName = getString(R.string.secret_key_name)
             cryptographyManager = CryptographyManager()
             val cipher = cryptographyManager.getInitializedCipherForEncryption(secretKeyName)
@@ -64,16 +89,20 @@ class HomeFragment : Fragment() {
 
     private fun encryptAndStoreServerToken(authResult: BiometricPrompt.AuthenticationResult) {
         authResult.cryptoObject?.cipher?.apply {
-            SampleAppUser.fakeToken?.let { token ->
-                val encryptedServerTokenWrapper = cryptographyManager.encryptData(token, this)
-                cryptographyManager.persistCipherTextWrapperToSharedPrefs(
-                    encryptedServerTokenWrapper,
-                    requireContext(),
-                    SHARED_PREFS_FILENAME,
-                    Context.MODE_PRIVATE,
-                    CIPHER_TEXT_WRAPPER
-                )
-            }
+            // 1) Get current plain text token
+            val token = sharedPreferences.getString(TOKEN, null)
+
+            // 2) Encrypt current token
+            val encryptedServerTokenWrapper = cryptographyManager.encryptData(token!!, this)
+
+            // 3) Save encrypted token to sharedPreferences
+            cryptographyManager.persistCipherTextWrapperToSharedPrefs(
+                encryptedServerTokenWrapper,
+                requireContext(),
+                SHARED_PREFS_FILENAME,
+                Context.MODE_PRIVATE,
+                CIPHER_TEXT_WRAPPER
+            )
         }
     }
 }

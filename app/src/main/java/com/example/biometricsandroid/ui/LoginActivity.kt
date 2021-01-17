@@ -1,102 +1,24 @@
 package com.example.biometricsandroid.ui
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricPrompt
 import androidx.databinding.DataBindingUtil
-import com.example.biometricsandroid.*
-import com.example.biometricsandroid.cryptography.CryptographyManager
+import com.example.biometricsandroid.R
+import com.example.biometricsandroid.SHARED_PREFS_FILENAME
+import com.example.biometricsandroid.TOKEN
+import com.example.biometricsandroid.USERNAME
 import com.example.biometricsandroid.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
 
-    private lateinit var biometricPrompt: BiometricPrompt
-    private val cryptographyManager = CryptographyManager()
-    private val cipherTextWrapper
-        get() = cryptographyManager.getCipherTextWrapperFromSharedPrefs(
-            this,
-            SHARED_PREFS_FILENAME,
-            Context.MODE_PRIVATE,
-            CIPHER_TEXT_WRAPPER
-        )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
-//        val canAuthenticate = BiometricManager.from(this).canAuthenticate()
-//        if (canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS && cipherTextWrapper != null) {
-//            binding.biometricsImage.visibility = View.VISIBLE
-//            binding.biometricsImage.setOnClickListener {
-//                showBiometricPromptForDecryption()
-//            }
-//        }
-//
         login()
-    }
-
-    /**
-     * The logic is kept inside onResume instead of onCreate so that
-     * authorizing biometrics takes immediate effect.
-     */
-    override fun onResume() {
-        super.onResume()
-
-//        if (cipherTextWrapper != null) {
-//            if (SampleAppUser.fakeToken == null) {
-//                showBiometricPromptForDecryption()
-//            } else {
-//                /** The user has already logged in, so proceed to the rest of the app */
-//                // TODO BUG
-//                val intent = Intent(this, MainActivity::class.java)
-//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                startActivity(intent)
-//            }
-//        }
-    }
-
-    // BIOMETRICS SECTION
-    private fun showBiometricPromptForDecryption() {
-        cipherTextWrapper?.let { textWrapper ->
-            val secretKeyName = getString(R.string.secret_key_name)
-            val cipher = cryptographyManager.getInitializedCipherForDecryption(
-                secretKeyName, textWrapper.initializationVector
-            )
-
-            biometricPrompt =
-                BiometricPromptUtils.createBiometricPrompt(
-                    this,
-                    ::decryptServerTokenFromStorage
-                )
-
-            val promptInfo = BiometricPromptUtils.createPromptInfo(this)
-            biometricPrompt.authenticate(promptInfo, BiometricPrompt.CryptoObject(cipher))
-        }
-    }
-
-    private fun decryptServerTokenFromStorage(authResult: BiometricPrompt.AuthenticationResult) {
-        cipherTextWrapper?.let { textWrapper ->
-            authResult.cryptoObject?.cipher?.let {
-                val plaintext =
-                    cryptographyManager.decryptData(textWrapper.cipherText, it)
-                SampleAppUser.fakeToken = plaintext
-
-                /**
-                 * Now that you have the token, you can query server for everything else the only
-                 * reason we call this fakeToken is because we didn't really get it from the server.
-                 * In your case, you will have gotten it from the server the first time
-                 * and therefore, it's a real token.
-                 */
-
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-            }
-        }
     }
 
     private fun login() {
@@ -109,12 +31,12 @@ class LoginActivity : AppCompatActivity() {
              */
 
             val username = binding.usernameEditText.text.toString()
-            val fakeToken = java.util.UUID.randomUUID().toString()
+            val token = java.util.UUID.randomUUID().toString()
 
             val sharedPreferences = getSharedPreferences(SHARED_PREFS_FILENAME, MODE_PRIVATE)
             sharedPreferences.edit()
-                .putString(username, "")
-                .putString(fakeToken, "")
+                .putString(USERNAME, username)
+                .putString(TOKEN, token)
                 .apply()
 
             val intent = Intent(this, MainActivity::class.java)

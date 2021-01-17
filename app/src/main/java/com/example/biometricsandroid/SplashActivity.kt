@@ -64,7 +64,6 @@ class SplashActivity : AppCompatActivity() {
              * 1) User does not have any enrolled biometric
              * 2) Biometric is not currently enabled/supported
              */
-
             // Navigate to LoginActivity in order to insert the credentials
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -74,6 +73,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun showBiometricPromptForDecryption() {
         cipherTextWrapper?.let { textWrapper ->
+            // TODO what is secretKeyName ?
             val secretKeyName = getString(R.string.secret_key_name)
             val cipher = cryptographyManager.getInitializedCipherForDecryption(
                 secretKeyName, textWrapper.initializationVector
@@ -93,9 +93,11 @@ class SplashActivity : AppCompatActivity() {
     private fun decryptServerTokenFromStorage(authResult: BiometricPrompt.AuthenticationResult) {
         cipherTextWrapper?.let { textWrapper ->
             authResult.cryptoObject?.cipher?.let {
-                val plaintext =
+                val token =
                     cryptographyManager.decryptData(textWrapper.cipherText, it)
-                SampleAppUser.fakeToken = plaintext
+                // Save token to sharedPreferences
+                getSharedPreferences(SHARED_PREFS_FILENAME, MODE_PRIVATE).edit()
+                    .putString(TOKEN, token).apply()
 
                 /**
                  * Now that you have the token, you can query server for everything else the only
