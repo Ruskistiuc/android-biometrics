@@ -4,7 +4,6 @@
     <!-- Login -->
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
-    <string name="invalid_credentials">Invalid combination</string>
     <string name="login">Login</string>
 
     <!-- Settings/Logout -->
@@ -12,12 +11,15 @@
     <string name="biometric">Biometric</string>
 
     <!-- Biometrics prompt -->
-    <string name="prompt_info_title">Sample App Authentication</string>
-    <string name="prompt_info_subtitle">Please login to get access</string>
-    <string name="prompt_info_description">Sample App is using Android biometric authentication</string>
-    <string name="prompt_info_use_app_password">Use app password</string>
+    <string name="prompt_info_title">Enter Passcode</string>
+    <string name="prompt_info_subtitle">-- No subtitle --</string>
+    <string name="prompt_info_description">This App uses biometric authentication to protect your data</string>
+    <string name="prompt_info_use_app_pin">Use PIN</string>
 
     <!-- Biometrics -->
     <string name="secret_key_name">biometric_sample_encryption_key</string>
+
+    <!-- Others -->
+    <string name="splash_screen">SPLASH SCREEN</string>
 
 </resources>

@@ -1,22 +1,15 @@
-package com.example.biometricsandroid
+package com.example.biometricsandroid.ui
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.databinding.DataBindingUtil
+import com.example.biometricsandroid.*
 import com.example.biometricsandroid.cryptography.CryptographyManager
 import com.example.biometricsandroid.databinding.ActivityLoginBinding
-import com.example.biometricsandroid.ui.MainActivity
 
-/**
- * FROM:
- * 1) https://developer.android.com/codelabs/biometric-login#0
- * 2) https://github.com/googlecodelabs/biometric-login
- */
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
@@ -35,15 +28,15 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
-        val canAuthenticate = BiometricManager.from(this).canAuthenticate()
-        if (canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS && cipherTextWrapper != null) {
-            binding.biometricsImage.visibility = View.VISIBLE
-            binding.biometricsImage.setOnClickListener {
-                showBiometricPromptForDecryption()
-            }
-        }
-
-        login()
+//        val canAuthenticate = BiometricManager.from(this).canAuthenticate()
+//        if (canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS && cipherTextWrapper != null) {
+//            binding.biometricsImage.visibility = View.VISIBLE
+//            binding.biometricsImage.setOnClickListener {
+//                showBiometricPromptForDecryption()
+//            }
+//        }
+//
+//        login()
     }
 
     /**
@@ -53,17 +46,17 @@ class LoginActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        if (cipherTextWrapper != null) {
-            if (SampleAppUser.fakeToken == null) {
-                showBiometricPromptForDecryption()
-            } else {
-                /** The user has already logged in, so proceed to the rest of the app */
-                // TODO BUG
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-            }
-        }
+//        if (cipherTextWrapper != null) {
+//            if (SampleAppUser.fakeToken == null) {
+//                showBiometricPromptForDecryption()
+//            } else {
+//                /** The user has already logged in, so proceed to the rest of the app */
+//                // TODO BUG
+//                val intent = Intent(this, MainActivity::class.java)
+//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                startActivity(intent)
+//            }
+//        }
     }
 
     // BIOMETRICS SECTION
