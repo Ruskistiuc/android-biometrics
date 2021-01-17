@@ -11,13 +11,13 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 
-fun CryptographyManager(): CryptographyManager = CryptographyManagerImpl()
+fun CryptographyManager(): CryptographyManager = CryptographyManagerImplementation()
 
 /**
  * To get an instance of this private CryptographyManagerImpl class, use the top-level function
  * fun CryptographyManager(): CryptographyManager = CryptographyManagerImpl()
  */
-private class CryptographyManagerImpl : CryptographyManager {
+private class CryptographyManagerImplementation : CryptographyManager {
 
     private val KEY_SIZE = 256
     private val ANDROID_KEYSTORE = "AndroidKeyStore"

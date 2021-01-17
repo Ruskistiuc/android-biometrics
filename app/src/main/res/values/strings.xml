@@ -7,11 +7,17 @@
     <string name="invalid_credentials">Invalid combination</string>
     <string name="login">Login</string>
 
+    <!-- Settings/Logout -->
+    <string name="logout">Logout</string>
+    <string name="biometric">Biometric</string>
+
     <!-- Biometrics prompt -->
     <string name="prompt_info_title">Sample App Authentication</string>
     <string name="prompt_info_subtitle">Please login to get access</string>
     <string name="prompt_info_description">Sample App is using Android biometric authentication</string>
     <string name="prompt_info_use_app_password">Use app password</string>
-    <string name="logout">Logout</string>
-    <string name="biometric">Biometric</string>
+
+    <!-- Biometrics -->
+    <string name="secret_key_name">biometric_sample_encryption_key</string>
+
 </resources>

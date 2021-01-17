@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.LoginFragment">
+        tools:context=".LoginActivity">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/username_edit_text"
@@ -14,6 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/standard_padding"
             android:hint="@string/username_hint"
+            android:maxLines="1"
             app:layout_constraintBottom_toTopOf="@id/password_edit_text"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
@@ -26,6 +27,7 @@
             android:hint="@string/password_hint"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
+            android:maxLines="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -47,11 +49,13 @@
             android:layout_height="80dp"
             android:importantForAccessibility="no"
             android:src="@drawable/ic_fingerprint"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_btn"
-            app:tint="?attr/colorPrimary" />
+            app:tint="?attr/colorPrimary"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
