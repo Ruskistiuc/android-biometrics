@@ -1,14 +1,11 @@
-package com.example.biometricsandroid.ui
+package com.example.biometricsandroid
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.example.biometricsandroid.R
-import com.example.biometricsandroid.SHARED_PREFS_FILENAME
-import com.example.biometricsandroid.TOKEN
-import com.example.biometricsandroid.USERNAME
 import com.example.biometricsandroid.databinding.ActivityLoginBinding
+import com.example.biometricsandroid.ui.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 

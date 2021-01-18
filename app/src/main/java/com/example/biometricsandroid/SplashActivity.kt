@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.example.biometricsandroid.cryptography.CryptographyManager
 import com.example.biometricsandroid.databinding.ActivitySplashBinding
-import com.example.biometricsandroid.ui.LoginActivity
 import com.example.biometricsandroid.ui.MainActivity
 import kotlinx.coroutines.delay
 
@@ -74,7 +73,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun showBiometricPromptForDecryption() {
         cipherTextWrapper?.let { textWrapper ->
-            // TODO what is secretKeyName ?
+            // TODO what is secretKeyName ? Get Secret Key alias from the app's memory
             val secretKeyName = getString(R.string.secret_key_name)
             val cipher = cryptographyManager.getInitializedCipherForDecryption(
                 secretKeyName, textWrapper.initializationVector

@@ -1,4 +1,4 @@
-package com.example.biometricsandroid.ui
+package com.example.biometricsandroid.ui.home
 
 import android.content.Context
 import android.content.Intent
@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.example.biometricsandroid.*
 import com.example.biometricsandroid.cryptography.CryptographyManager
 import com.example.biometricsandroid.databinding.FragmentHomeBinding
+import com.example.biometricsandroid.ui.MainActivity
 
 class HomeFragment : Fragment() {
 
@@ -59,7 +60,7 @@ class HomeFragment : Fragment() {
     private fun showBiometricPromptForEncryption() {
         val canAuthenticate = BiometricManager.from(requireContext()).canAuthenticate()
         if (canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS) {
-            // TODO what is secretKeyName ?
+            // TODO what is secretKeyName ? Use BiometricPrompt to unlock the secret key
             val secretKeyName = getString(R.string.secret_key_name)
             cryptographyManager = CryptographyManager()
             val cipher = cryptographyManager.getInitializedCipherForEncryption(secretKeyName)
