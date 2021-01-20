@@ -8,21 +8,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import com.example.androidbiometrics.cryptography.CryptographyManager
-import com.example.androidbiometrics.databinding.ActivitySplashBinding
+import com.example.androidbiometrics.databinding.ActivityBiometricsVerificationBinding
 import com.example.androidbiometrics.ui.MainActivity
-import kotlinx.coroutines.delay
 
 /**
  * FROM:
  * 1) https://developer.android.com/codelabs/biometric-login#0
  * 2) https://github.com/googlecodelabs/biometric-login
  */
-class SplashActivity : AppCompatActivity() {
+class BiometricsVerificationActivity : AppCompatActivity() {
 
     private lateinit var biometricPrompt: BiometricPrompt
-    private lateinit var binding: ActivitySplashBinding
+    private lateinit var binding: ActivityBiometricsVerificationBinding
 
     private val cryptographyManager = CryptographyManager()
     private val cipherTextWrapper
@@ -35,16 +33,31 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_biometrics_verification)
 
-        // Just to simulate background work while showing SplashActivity
-        lifecycleScope.launchWhenCreated {
-            delay(1500)
-            auth()
+        biometricsAuthentication()
+        tryAgain()
+        logout()
+    }
+
+    private fun tryAgain() {
+        binding.tryAgainBtn.setOnClickListener {
+            biometricsAuthentication()
         }
     }
 
-    private fun auth() {
+    private fun logout() {
+        binding.logoutBtn.setOnClickListener {
+            // Delete all data saved in sharedPreferences
+            getSharedPreferences(SHARED_PREFS_FILENAME, MODE_PRIVATE).edit().clear().apply()
+
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+    }
+
+    private fun biometricsAuthentication() {
         val canAuthenticate = BiometricManager.from(this).canAuthenticate()
 
         if (canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS) {

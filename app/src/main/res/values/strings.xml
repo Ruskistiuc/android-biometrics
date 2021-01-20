@@ -19,8 +19,12 @@
     <!-- Biometrics -->
     <string name="secret_key_name">biometric_sample_encryption_key</string>
 
+    <!-- Verification Screen -->
+    <string name="unlock_this_app">Unlock This App</string>
+    <string name="try_again">Try again</string>
+    <string name="auth_failed">Authentication Failed. Try again to continue using This App.</string>
+
     <!-- Others -->
-    <string name="splash_screen">SPLASH SCREEN</string>
     <string name="welcome_user">Welcome %s!</string>
 
 </resources>
