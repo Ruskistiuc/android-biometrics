@@ -31,6 +31,11 @@ buildscript {
 }
 
 plugins {
+    /**
+     * Commands:
+     * gradlew ktlintFormat
+     * gradlew ktlintCheck
+     */
     id "org.jlleitschuh.gradle.ktlint" version "$ktlint_version"
 }
 
