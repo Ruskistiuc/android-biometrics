@@ -48,6 +48,9 @@ object BiometricPromptUtils {
         return BiometricPrompt(activity, executor, callback)
     }
 
+    /**
+     * https://developer.android.com/training/sign-in/biometric-auth
+     */
     fun createPromptInfo(activity: AppCompatActivity): BiometricPrompt.PromptInfo =
         BiometricPrompt.PromptInfo.Builder().apply {
             setTitle(activity.getString(R.string.prompt_info_title))
