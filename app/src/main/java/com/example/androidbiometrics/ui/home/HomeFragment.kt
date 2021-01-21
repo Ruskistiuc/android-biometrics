@@ -69,8 +69,8 @@ class HomeFragment : Fragment() {
 
     private fun showBiometricPromptForEncryption() {
         val canAuthenticate = BiometricManager.from(requireContext()).canAuthenticate()
+
         if (canAuthenticate == BiometricManager.BIOMETRIC_SUCCESS) {
-            // TODO what is secretKeyName ? Use BiometricPrompt to unlock the secret key
             val secretKeyName = getString(R.string.secret_key_name)
             cryptographyManager = getCryptographyManager()
             val cipher =

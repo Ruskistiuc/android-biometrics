@@ -35,26 +35,13 @@ class BiometricsVerificationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_biometrics_verification)
 
-        biometricsAuthentication()
         tryAgain()
         logout()
     }
 
-    private fun tryAgain() {
-        binding.tryAgainBtn.setOnClickListener {
-            biometricsAuthentication()
-        }
-    }
-
-    private fun logout() {
-        binding.logoutBtn.setOnClickListener {
-            // Delete all data saved in sharedPreferences
-            getSharedPreferences(SHARED_PREFS_FILENAME, MODE_PRIVATE).edit().clear().apply()
-
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-        }
+    override fun onResume() {
+        super.onResume()
+        biometricsAuthentication()
     }
 
     private fun biometricsAuthentication() {
@@ -144,5 +131,22 @@ class BiometricsVerificationActivity : AppCompatActivity() {
             "ERROR OR CANCEL with error code $errCode",
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    private fun tryAgain() {
+        binding.tryAgainBtn.setOnClickListener {
+            biometricsAuthentication()
+        }
+    }
+
+    private fun logout() {
+        binding.logoutBtn.setOnClickListener {
+            // Delete all data saved in sharedPreferences
+            getSharedPreferences(SHARED_PREFS_FILENAME, MODE_PRIVATE).edit().clear().apply()
+
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
     }
 }
