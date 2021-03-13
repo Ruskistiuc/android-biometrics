@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "BiometricsAndroid"
+rootProject.name = "android-biometrics"

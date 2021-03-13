@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">Biometrics</string>
+
+    <!-- Biometrics prompt -->
+    <string name="prompt_info_title">Enter Passcode</string>
+    <string name="prompt_info_subtitle">-- No subtitle --</string>
+    <string name="prompt_info_description">This App uses biometric authentication to protect your data</string>
+    <string name="prompt_info_negative_button">Cancel</string>
+
+    <!-- Cryptography -->
+    <string name="secret_key_name">encrypt_decrypt_secret_key_name</string>
+
+    <!-- Verification Screen -->
+    <string name="unlock_this_app">Unlock This App</string>
+    <string name="try_again">Try again</string>
+    <string name="auth_failed">Authentication Failed. Try again to continue using This App.</string>
+
+    <!-- Login -->
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login">Login</string>
+
+    <!-- Home -->
+    <string name="welcome_user">Welcome %s!</string>
+    <string name="logout">Logout</string>
+    <string name="biometric">Biometric</string>
+
 </resources>
